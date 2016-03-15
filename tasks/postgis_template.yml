@@ -4,17 +4,17 @@
 - name: create postgis template database
   postgresql_db: name=postgis_template
                  encoding='UTF-8'
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 # CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public
 - name: install postgis extension
   postgresql_ext: name=postgis db=postgis_template
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 # CREATE EXTENSION IF NOT EXISTS postgis_topology WITH SCHEMA topology
 - name: install topology extension
   postgresql_ext: name=postgis_topology db=postgis_template
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres

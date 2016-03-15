@@ -27,8 +27,8 @@
       name={{ admin_username }}
       password={{ admin_password }}
       role_attr_flags=SUPERUSER
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   notify:
   - restart postgresql
 
@@ -67,5 +67,5 @@
         owner=root
         group=root
         mode=0644
-  notify: 
+  notify:
   - restart monit
