@@ -1,0 +1,59 @@
+---
+
+# create giscube database and user, assign privileges
+# CREATE DATABASE giscube WITH template=postgis_template;
+- postgresql_db: name=giscube
+                 encoding='UTF-8'
+                 template='postgis_template'
+  sudo: yes
+  sudo_user: postgres
+
+# CREATE USER giscube WITH PASSWORD 'giscube'
+- postgresql_user: db=giscube name=giscube password=giscube
+  sudo: yes
+  sudo_user: postgres
+  notify:
+  - restart postgresql
+
+# GRANT ALL PRIVILEGES ON DATABASE giscube TO giscube
+- postgresql_privs: >
+    db=giscube
+    privs=ALL
+    type=database
+    role=giscube
+  sudo: yes
+  sudo_user: postgres
+
+- name: check if the schema 'giscube' exists
+  command: psql -d giscube -c "SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'giscube';"
+  sudo: yes
+  sudo_user: postgres
+  register: giscube_schema_exists
+  changed_when: "False"
+
+# CREATE SCHEMA IF NOT EXISTS giscube AUTHORIZATION giscube
+- command: psql -d giscube -c "CREATE SCHEMA IF NOT EXISTS giscube AUTHORIZATION giscube;"
+  sudo: yes
+  sudo_user: postgres
+  changed_when: "'giscube' not in giscube_schema_exists.stdout"
+
+# create test user, assign privileges
+# CREATE USER test WITH PASSWORD 'test'
+- postgresql_user: db=giscube name=test password=test
+  sudo: yes
+  sudo_user: postgres
+  notify:
+  - restart postgresql
+
+- name: check if the schema 'test' exists
+  command: psql -d giscube -c "SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'test';"
+  sudo: yes
+  sudo_user: postgres
+  register: test_schema_exists
+  changed_when: "False"
+
+# CREATE SCHEMA IF NOT EXISTS test AUTHORIZATION test
+- command: psql -d giscube -c "CREATE SCHEMA IF NOT EXISTS test AUTHORIZATION test;"
+  sudo: yes
+  sudo_user: postgres
+  changed_when: "'test' not in test_schema_exists.stdout"

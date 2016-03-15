@@ -1,0 +1,71 @@
+---
+
+# postgresql-contrib contains the server instrumentation module
+# postgresql devel package to build psycopg driver and others
+- name: install postgresql database and PostGIS extension
+  apt: name={{ item }} state=latest
+  with_items:
+    - postgresql
+    - postgresql-contrib
+    - postgresql-server-dev-{{ postgresql_version }}
+    - postgis
+    - postgresql-{{ postgresql_version }}-postgis-2.1
+    - python-psycopg2
+    - autopostgresqlbackup
+    - phppgadmin
+
+- name: ensure postgresql server is running
+  action: service name=postgresql state=started
+
+- include: postgis_template.yml
+
+- include: giscube_database.yml
+
+# create admin superuser
+# CREATE USER admin WITH PASSWORD 'admin' SUPERUSER
+- postgresql_user: db=postgres
+      name={{ admin_username }}
+      password={{ admin_password }}
+      role_attr_flags=SUPERUSER
+  sudo: yes
+  sudo_user: postgres
+  notify:
+  - restart postgresql
+
+- name: enable local user/pass access
+  lineinfile:
+      dest=/etc/postgresql/{{ postgresql_version }}/main//pg_hba.conf
+      regexp="^local\s+all\s+all\s+peer$"
+      insertafter="^#\s\"local\".+"
+      line="local   all             all                                     md5"
+  notify:
+  - restart postgresql
+
+- name: enable host user/pass access
+  lineinfile:
+      dest=/etc/postgresql/{{ postgresql_version }}/main//pg_hba.conf
+      insertafter="^#\sIPv4\slocal.+"
+      line="host    all             all             0.0.0.0/0               md5"
+  notify:
+  - restart postgresql
+
+- name: install phppgadmin
+  apt: name={{ item }} state=latest
+  with_items:
+    - phppgadmin
+  tags: packages
+
+- name: make phppgadmin available through nginx
+  file: src=/usr/share/phppgadmin
+      dest=/usr/share/nginx/html/phppgadmin
+      state=link
+
+- template:
+        backup=yes
+        src=etc/monit/conf.d/postgresql.j2
+        dest=/etc/monit/conf.d/postgresql
+        owner=root
+        group=root
+        mode=0644
+  notify: 
+  - restart monit
