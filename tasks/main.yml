@@ -32,6 +32,16 @@
   notify:
   - restart postgresql
 
+#      regexp="^listen_addresses\s*=\s*'\s+'\s*"
+- name: configure listen_addresses
+  lineinfile:
+      dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf
+      regexp="^listen_addresses\s*"
+      insertbefore="^port\s*=.+"
+      line="listen_addresses = '{{ postgresql_listen }}'"
+  notify:
+  - restart postgresql
+
 - name: enable local user/pass access
   lineinfile:
       dest=/etc/postgresql/{{ postgresql_version }}/main//pg_hba.conf

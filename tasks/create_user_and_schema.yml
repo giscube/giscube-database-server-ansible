@@ -1,0 +1,32 @@
+---
+
+# Usage
+# - include: create_user_and_schema.yml
+#   vars:
+#       user_name: "{{ postgresql_test_username }}"
+#       user_password: "{{ postgresql_test_password }}"
+
+
+# create user, assign schema privileges
+# CREATE USER user_name WITH PASSWORD 'user_password'
+- postgresql_user:
+      db=giscube
+      name={{ user_name }}
+      password={{ user_password }}
+  become: yes
+  become_user: postgres
+  notify:
+  - restart postgresql
+
+- name: check if the schema '{{ user_name }}' exists
+  command: psql -d giscube -c "SELECT schema_name FROM information_schema.schemata WHERE schema_name = '{{ user_name }}';"
+  become: yes
+  become_user: postgres
+  register: test_schema_exists
+  changed_when: "False"
+
+# CREATE SCHEMA IF NOT EXISTS user_name AUTHORIZATION user_pass
+- command: psql -d giscube -c "CREATE SCHEMA IF NOT EXISTS {{ user_name }} AUTHORIZATION {{ user_password }};"
+  become: yes
+  become_user: postgres
+  changed_when: "'{{ user_name }}' not in test_schema_exists.stdout"
