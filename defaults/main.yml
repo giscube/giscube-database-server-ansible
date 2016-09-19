@@ -1,6 +1,5 @@
 ---
 
-postgresql_version: 9.3
 postgresql_listen: localhost
 postgresql_giscube_username: giscube
 postgresql_giscube_password: giscube

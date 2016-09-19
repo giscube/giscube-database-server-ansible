@@ -1,5 +1,9 @@
 ---
 
+- name: set distro-specific variables
+  include_vars: 'vars_{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml'
+
+
 # postgresql-contrib contains the server instrumentation module
 # postgresql devel package to build psycopg driver and others
 - name: install postgresql database and PostGIS extension
@@ -9,7 +13,7 @@
     - postgresql-contrib
     - postgresql-server-dev-{{ postgresql_version }}
     - postgis
-    - postgresql-{{ postgresql_version }}-postgis-2.1
+    - postgresql-{{ postgresql_version }}-postgis-{{ postgis_version }}
     - python-psycopg2
     - autopostgresqlbackup
     - phppgadmin
