@@ -26,7 +26,7 @@
   changed_when: "False"
 
 # CREATE SCHEMA IF NOT EXISTS user_name AUTHORIZATION user_pass
-- command: psql -d giscube -c "CREATE SCHEMA IF NOT EXISTS {{ user_name }} AUTHORIZATION {{ user_password }};"
+- command: psql -d giscube -c "CREATE SCHEMA IF NOT EXISTS {{ user_name }} AUTHORIZATION {{ user_name }};"
   become: yes
   become_user: postgres
   changed_when: "'{{ user_name }}' not in test_schema_exists.stdout"
