@@ -15,8 +15,15 @@
     - postgis
     - postgresql-{{ postgresql_version }}-postgis-{{ postgis_version }}
     - python-psycopg2
-    - autopostgresqlbackup
     - phppgadmin
+
+
+- name: install autopostgresqlbackup
+  apt: name={{ item }} state=latest
+  with_items:
+    - autopostgresqlbackup
+  when:
+      when: autopostgresqlbackup == True
 
 - name: ensure postgresql server is running
   action: service name=postgresql state=started
