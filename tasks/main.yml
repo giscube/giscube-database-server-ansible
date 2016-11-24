@@ -19,11 +19,9 @@
 
 
 - name: install autopostgresqlbackup
-  apt: name={{ item }} state=latest
-  with_items:
-    - autopostgresqlbackup
+  apt: name=autopostgresqlbackup state=latest
   when:
-      when: autopostgresqlbackup == True
+    autopostgresqlbackup == 'yes'
 
 - name: ensure postgresql server is running
   action: service name=postgresql state=started
