@@ -7,3 +7,6 @@ postgresql_test_username: test
 postgresql_test_password: test
 
 autopostgresqlbackup: yes
+
+securize_phppgadmin: yes
+giscube_administrators_cidr: 127.0.0.1/32

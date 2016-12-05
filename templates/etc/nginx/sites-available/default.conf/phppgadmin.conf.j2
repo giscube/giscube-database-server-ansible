@@ -1,0 +1,13 @@
+
+    location /phppgadmin/ {
+       # root /usr/share/phppgadmin/;
+       # administrators
+{% if giscube_administrators_cidr %}
+       # giscube_administrators_cidr
+       allow   {{ giscube_administrators_cidr }};
+{% else %}
+       # giscube_administrators_cidr not set
+{% endif %}
+       # drop rest of the world
+       deny    all;
+    }

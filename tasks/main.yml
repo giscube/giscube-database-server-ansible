@@ -21,7 +21,7 @@
 - name: install autopostgresqlbackup
   apt: name=autopostgresqlbackup state=latest
   when:
-    autopostgresqlbackup == 'yes'
+    autopostgresqlbackup
 
 - name: ensure postgresql server is running
   action: service name=postgresql state=started
@@ -78,6 +78,18 @@
   file: src=/usr/share/phppgadmin
       dest=/usr/share/nginx/html/phppgadmin
       state=link
+
+- name: securize phppgadmin
+  template:
+        backup=yes
+        src=etc/nginx/sites-available/default.conf/phppgadmin.conf.j2
+        dest=/etc/nginx/sites-available/default.conf/phppgadmin.conf
+        owner=root
+        group=root
+        mode=0644
+  notify:
+    - reload nginx
+  when: securize_phppgadmin
 
 - template:
         backup=yes
