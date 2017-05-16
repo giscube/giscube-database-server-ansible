@@ -68,28 +68,8 @@
   notify:
   - restart postgresql
 
-- name: install phppgadmin
-  apt: name={{ item }} state=latest
-  with_items:
-    - phppgadmin
-  tags: packages
-
-- name: make phppgadmin available through nginx
-  file: src=/usr/share/phppgadmin
-      dest=/usr/share/nginx/html/phppgadmin
-      state=link
-
-- name: securize phppgadmin
-  template:
-        backup=yes
-        src=etc/nginx/sites-available/default.conf/phppgadmin.conf.j2
-        dest=/etc/nginx/sites-available/default.conf/phppgadmin.conf
-        owner=root
-        group=root
-        mode=0644
-  notify:
-    - reload nginx
-  when: securize_phppgadmin
+- include: phppgadmin.yml
+  when: install_phppgadmin
 
 - template:
         backup=yes
