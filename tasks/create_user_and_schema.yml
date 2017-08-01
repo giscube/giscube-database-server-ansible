@@ -25,7 +25,7 @@
   register: test_schema_exists
   changed_when: "False"
 
-# CREATE SCHEMA IF NOT EXISTS user_name AUTHORIZATION user_pass
+# CREATE SCHEMA IF NOT EXISTS user_name AUTHORIZATION user_name
 - command: psql -d giscube -c "CREATE SCHEMA IF NOT EXISTS {{ user_name }} AUTHORIZATION {{ user_name }};"
   become: yes
   become_user: postgres
