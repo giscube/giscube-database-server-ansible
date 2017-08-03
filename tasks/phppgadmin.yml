@@ -8,7 +8,7 @@
 
 - name: make phppgadmin available through nginx
   file: src=/usr/share/phppgadmin
-      dest=/usr/share/nginx/html/phppgadmin
+      dest={{ nginx_default_root }}/phppgadmin
       state=link
 
 - name: securize phppgadmin
