@@ -1,6 +1,5 @@
 
-    location /phppgadmin/ {
-       # root /usr/share/phppgadmin/;
+    location ~ /phppgadmin/.* {
        # administrators
 {% if giscube_administrators_cidr %}
        # giscube_administrators_cidr
@@ -10,4 +9,10 @@
 {% endif %}
        # drop rest of the world
        deny    all;
+
+       location ~ \.php$ {
+               include snippets/fastcgi-php.conf;
+               # With php7.0-cgi alone:
+               fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+       }
     }
