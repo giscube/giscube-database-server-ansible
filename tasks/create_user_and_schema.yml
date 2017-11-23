@@ -9,7 +9,8 @@
 
 # create user, assign schema privileges
 # CREATE USER user_name WITH PASSWORD 'user_password'
-- postgresql_user:
+- name: create user '{{ user_name }}'
+  postgresql_user:
       db=giscube
       name={{ user_name }}
       password={{ user_password }}
@@ -26,7 +27,8 @@
   changed_when: "False"
 
 # CREATE SCHEMA IF NOT EXISTS user_name AUTHORIZATION user_name
-- command: psql -d giscube -c "CREATE SCHEMA IF NOT EXISTS {{ user_name }} AUTHORIZATION {{ user_name }};"
+- name: create schema '{{ user_name }}'
+  command: psql -d giscube -c "CREATE SCHEMA IF NOT EXISTS {{ user_name }} AUTHORIZATION {{ user_name }};"
   become: yes
   become_user: postgres
   changed_when: "'{{ user_name }}' not in test_schema_exists.stdout"
