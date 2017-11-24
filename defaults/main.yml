@@ -6,6 +6,7 @@ postgis_template_lc_collate: en_US.UTF-8
 postgresql_listen: localhost
 
 autopostgresqlbackup: yes
+autopostgresqlbackup_dbnames: all
 
 install_phppgadmin: yes
 securize_phppgadmin: yes
