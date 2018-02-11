@@ -29,8 +29,6 @@
 
 - include: postgis_template.yml
 
-- include: giscube_database.yml
-
 # create admin superuser
 # CREATE USER admin WITH PASSWORD 'admin' SUPERUSER
 - postgresql_user: db=postgres

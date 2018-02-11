@@ -1,10 +1,6 @@
 ---
 
 postgresql_listen: localhost
-postgresql_giscube_username: giscube
-postgresql_giscube_password: giscube
-postgresql_test_username: test
-postgresql_test_password: test
 
 autopostgresqlbackup: yes
 
