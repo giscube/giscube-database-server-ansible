@@ -29,9 +29,9 @@
 
 - include: postgis_template.yml
 
-# create admin superuser
 # CREATE USER admin WITH PASSWORD 'admin' SUPERUSER
-- postgresql_user: db=postgres
+- name: Create admin superuser
+  postgresql_user: db=postgres
       name={{ admin_username }}
       password={{ admin_password }}
       role_attr_flags=SUPERUSER
