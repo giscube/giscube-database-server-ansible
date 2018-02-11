@@ -16,7 +16,6 @@
     - postgresql-{{ postgresql_version }}-postgis-{{ postgis_version }}
     - python-psycopg2
     - python3-psycopg2
-    - phppgadmin
 
 
 - name: install autopostgresqlbackup
