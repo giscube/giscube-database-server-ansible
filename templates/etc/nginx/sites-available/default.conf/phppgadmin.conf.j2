@@ -7,6 +7,10 @@
 {% else %}
        # giscube_administrators_cidr not set
 {% endif %}
+
+{% for allow in phppgadmin_allow %}
+       allow {{ allow.ip }};  # {{ allow.name }}
+{% endfor %}
        # drop rest of the world
        deny    all;
 
