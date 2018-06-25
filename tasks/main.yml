@@ -31,7 +31,7 @@
 - name: Create admin superuser
   postgresql_user: db=postgres
       name={{ admin_username }}
-      password={{ admin_password|hash('md5') }}
+      password={{ admin_password }}
       role_attr_flags=SUPERUSER
       encrypted=yes
   become: yes
