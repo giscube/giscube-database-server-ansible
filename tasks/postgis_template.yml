@@ -3,7 +3,7 @@
 # CREATE DATABASE postgis
 - name: create postgis template database
   postgresql_db: name=postgis_template
-                 encoding='UTF-8'
+                 encoding='{{ postgis_template_encoding }}'
                  lc_ctype='{{ postgis_template_lc_ctype }}'
                  lc_collate='{{ postgis_template_lc_collate }}'
                  template='template0'

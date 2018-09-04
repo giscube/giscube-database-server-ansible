@@ -12,3 +12,7 @@ securize_phppgadmin: yes
 phppgadmin_allow: []  # [{'ip': '192.168.1.10', 'name': 'admin'}]
 
 giscube_administrators_cidr: 127.0.0.1/32
+
+postgis_template_encoding: UTF-8
+postgis_template_lc_ctype: en_US.UTF-8
+postgis_template_lc_collate: en_US.UTF-8
