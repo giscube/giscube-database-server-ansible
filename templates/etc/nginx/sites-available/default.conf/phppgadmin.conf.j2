@@ -16,7 +16,13 @@
 
        location ~ \.php$ {
                include snippets/fastcgi-php.conf;
+               {% if ansible_distribution=='Ubuntu' and ansible_distribution_release == 'bionic' %}
+               # With php7.2-cgi alone:
+               fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+               {% else %}
                # With php7.0-cgi alone:
                fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+               {% endif %}
+
        }
     }
