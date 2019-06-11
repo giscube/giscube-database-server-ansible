@@ -1,8 +1,5 @@
 ---
 
-postgis_template_lc_ctype: en_US.UTF-8
-postgis_template_lc_collate: en_US.UTF-8
-
 postgresql_listen: localhost
 
 autopostgresqlbackup: yes
