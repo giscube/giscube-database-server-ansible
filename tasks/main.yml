@@ -7,8 +7,8 @@
 # postgresql-contrib contains the server instrumentation module
 # postgresql devel package to build psycopg driver and others
 - name: install postgresql database and PostGIS extension
-  apt: name={{ item }} state=latest
-  with_items:
+  apt:
+    name:
     - postgresql
     - postgresql-contrib
     - postgresql-server-dev-{{ postgresql_version }}
@@ -16,12 +16,12 @@
     - postgresql-{{ postgresql_version }}-postgis-{{ postgis_version }}
     - python-psycopg2
     - python3-psycopg2
+    state: latest
 
 
 - name: install autopostgresqlbackup
   apt: name=autopostgresqlbackup state=latest
-  when:
-    autopostgresqlbackup
+  when: autopostgresqlbackup|bool
 
 - name: ensure postgresql server is running
   action: service name=postgresql state=started
@@ -68,7 +68,7 @@
   - restart postgresql
 
 - include: phppgadmin.yml
-  when: install_phppgadmin
+  when: install_phppgadmin|bool
 
 - template:
         backup=yes

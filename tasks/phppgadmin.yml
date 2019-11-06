@@ -1,9 +1,10 @@
 ---
 
 - name: install phppgadmin
-  apt: name={{ item }} state=latest
-  with_items:
+  apt:
+    name:
     - phppgadmin
+    state: latest
   tags: packages
 
 - name: make phppgadmin available through nginx
@@ -21,4 +22,4 @@
         mode=0644
   notify:
     - reload nginx
-  when: securize_phppgadmin
+  when: securize_phppgadmin|bool
