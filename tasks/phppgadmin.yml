@@ -19,7 +19,7 @@
         dest=/etc/nginx/sites-available/default.conf/phppgadmin.conf
         owner=root
         group=root
-        mode=0644
+        mode=0640
   notify:
     - reload nginx
   when: securize_phppgadmin|bool
