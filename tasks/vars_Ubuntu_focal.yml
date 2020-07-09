@@ -1,0 +1,4 @@
+---
+
+postgresql_version: 12
+postgis_version: 3
